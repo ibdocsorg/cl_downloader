@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-	<title>Calameo Download PDF</title>
+	<title>Download Calameo Document as PDF</title>
 	<meta charset="UTF-8">
-	<meta name="title" content="Télécharger un document Calameo en PDF">
-	<meta name="description" content="Télécharger un document Calameo au format PDF avec l'impression du navigateur web.">
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://comfoxx.github.io/calameo-download-pdf/">
-	<meta property="og:title" content="Télécharger un document Calameo en PDF">
-	<meta property="og:description" content="Télécharger un document Calameo au format PDF avec l'impression du navigateur web.">
 	<style>
 		body {
 			margin: 0;
@@ -51,14 +45,15 @@
 </head>
 <body>
 	<div class="screen">
-		<h1>Télécharger un document Calameo en PDF</h1>
+		<h1>Download a Calameo document in PDF</h1>
 		<p>
-			Afin de télécharger un document Calameo au format PDF, cette page web chargera les images svgz de chacune des pages puis vous proposera de les imprimer, vous pourrez ainsi demander à votre navigateur d'enregistrer le document au format pdf.
-			<br>Il est recommandé d'utiliser un navigateur basé sur Chromium. Firefox trame le texte, le rendant non-sélectionnable.
+			In order to download a Calameo document in PDF format, this web page will load the svgz images of each of the pages then offer to print them, so you can ask your browser to save the document in pdf format.
+			<br>It is recommended to use a Chromium-based browser. Firefox dithers the text, making it unselectable.<br>
+                        <br>ibdocsorg exclusive? no, this is not original work lol
 		</p>
 		<form>
-			<input type="url" placeholder="URL Calameo" size="50">
-			<button type="submit">Imprimer</button>
+			<input type="url" placeholder="URL Calameo" size="100">
+			<button type="submit">Download</button>
 		</form>
 		<hr style="display: none;">
 		<label for="loading" style="display: none;">Chargement</label>
@@ -79,7 +74,7 @@
 			book = data;
 		}
 		const error = function () {
-			label.textContent = 'Erreur lors du chargement du document.'
+			label.textContent = 'Error loading document.'
 			label.style.color = 'red'
 			progress.style.display = 'none'
 			progress.value = 0;
@@ -94,13 +89,13 @@
 			label.style.display = 'block'
 			progress.style.display = 'block'
 			label.style.color = 'inherit'
-			label.textContent = 'Suppression du document précédent…'
+			label.textContent = 'Deleting the previous document…'
 
 			while (images.firstChild) {
 				images.firstChild.remove()
 			}
 
-			label.textContent = 'Chargement des paramètres du document calemeo…'
+			label.textContent = 'Loading Calameo document settings…'
 			
 			let ready = false;
 			const bookJsonUrl = 'https://d.calameo.com/3.0.0/book.php?callback=_jsonBook&bkcode=' + input.value.substring(input.value.lastIndexOf('/') + 1, input.value.length).replace(/\?/g, '&')
@@ -128,7 +123,7 @@
 					return null;
 				}
 
-				label.textContent = 'Définition des paramètres du document…'
+				label.textContent = 'Setting document parameters…'
 				
 				const width = book['content']['document']['width'] + 'px'
 				const height = book['content']['document']['height'] + 'px'
@@ -144,14 +139,14 @@
 
 				title.textContent = book['content']['name']
 
-				label.textContent = `Chargement des pages ${loadedImages}/${max}…`
+				label.textContent = `Loading pages ${loadedImages}/${max}…`
 				
 				const load = function () {
 					loadedImages++
 					progress.value = loadedImages
-					label.textContent = `Chargement des pages ${loadedImages}/${max}…`
+					label.textContent = `Loading pages ${loadedImages}/${max}…`
 					if (loadedImages >= max) {
-						label.textContent = 'Chargement terminé, impression…'
+						label.textContent = 'Loading complete, printing...'
 						window.print()
 						hr.style.display = 'none'
 						label.style.display = 'none'
